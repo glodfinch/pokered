@@ -298,6 +298,16 @@ _TangelaDexEntry::
 	next "shake as it walks"
 	dex
 
+_SmeargleDexEntry::
+	text "The color of the"
+	next "mysterious fluid"
+	next "secreted from its"
+
+	page "tail is unique to"
+	next "each individual"
+	next "SMEARGLE"
+	dex
+
 _GrowlitheDexEntry::
 	text "Very protective"
 	next "of its territory."
@@ -1507,4 +1517,3 @@ _VictreebelDexEntry::
 	next "has ever returned"
 	next "from there"
 	dex
-

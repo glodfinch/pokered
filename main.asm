@@ -10,6 +10,7 @@ PICS_2 EQU $A
 PICS_3 EQU $B
 PICS_4 EQU $C
 PICS_5 EQU $D
+PICS_6 EQU $2D
 
 INCLUDE "home.asm"
 
@@ -22,7 +23,7 @@ INCLUDE "engine/black_out.asm"
 
 MewPicFront:: INCBIN "pic/bmon/mew.pic"
 MewPicBack::  INCBIN "pic/monback/mewb.pic"
-INCLUDE "data/baseStats/mew.asm"
+
 
 INCLUDE "engine/battle/safari_zone.asm"
 
@@ -1846,9 +1847,6 @@ INCLUDE "engine/hidden_object_functions18.asm"
 
 SECTION "bank19",ROMX,BANK[$19]
 
-Overworld_GFX:     INCBIN "gfx/tilesets/overworld.2bpp"
-Overworld_Block:   INCBIN "gfx/blocksets/overworld.bst"
-
 RedsHouse1_GFX:
 RedsHouse2_GFX:    INCBIN "gfx/tilesets/reds_house.2bpp"
 	ds 16
@@ -2084,9 +2082,15 @@ INCLUDE "engine/overworld/elevator.asm"
 
 INCLUDE "engine/items/tm_prices.asm"
 
+SECTION "Pics 6", ROMX, BANK[PICS_6]
+SmearglePicFront::  INCBIN "pic/bmon/smeargle.pic"
+SmearglePicBack::   INCBIN "pic/monback/smeargleb.pic"
+
 SECTION "Moved stuff", ROMX, BANK[$2D]
 
 RedFishingTilesFront: INCBIN "gfx/red_fishing_tile_front.2bpp"
 RedFishingTilesBack:  INCBIN "gfx/red_fishing_tile_back.2bpp"
 RedFishingTilesSide:  INCBIN "gfx/red_fishing_tile_side.2bpp"
 RedFishingRodTiles:   INCBIN "gfx/red_fishingrod_tiles.2bpp"
+Overworld_GFX:     INCBIN "gfx/tilesets/overworld.2bpp"
+Overworld_Block:   INCBIN "gfx/blocksets/overworld.bst"
