@@ -1791,6 +1791,7 @@ wObjectToHide:: ; d079
 wObjectToShow:: ; d07a
 	ds 1
 
+wAnimationCategory:: ;d07b
 	ds 1
 
 wDefaultMap:: ; d07c

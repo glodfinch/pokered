@@ -580,7 +580,7 @@ HandlePoisonBurnLeechSeed:
 	xor a
 	ld [wAnimationType], a
 	ld a, BURN_PSN_ANIM
-	call PlayMoveAnimation   ; play burn/poison animation
+	call PlayStatusAnimation   ; play burn/poison animation
 	pop hl
 	call HandlePoisonBurnLeechSeed_DecreaseOwnHP
 .notBurnedOrPoisoned
@@ -1846,7 +1846,7 @@ SendOutMon:
 	ld a, $1
 	ld [H_WHOSETURN], a
 	ld a, POOF_ANIM
-	call PlayMoveAnimation
+	call PlayStatusAnimation
 	coord hl, 4, 11
 	predef AnimateSendingOutMon
 	ld a, [wcf91]
@@ -3254,7 +3254,7 @@ playerCheckIfFlyOrChargeEffect:
 	xor a
 	ld [wAnimationType], a
 	ld a, STATUS_AFFECTED_ANIM
-	call PlayMoveAnimation
+	call PlayStatusAnimation
 MirrorMoveCheck:
 	ld a, [wPlayerMoveEffect]
 	cp MIRROR_MOVE_EFFECT
@@ -3399,7 +3399,7 @@ CheckPlayerStatusConditions:
 	xor a
 	ld [wAnimationType], a
 	ld a, SLP_ANIM - 1
-	call PlayMoveAnimation
+	call PlayStatusAnimation
 	ld hl, FastAsleepText
 	call PrintText
 	jr .sleepDone
@@ -3483,7 +3483,7 @@ CheckPlayerStatusConditions:
 	xor a
 	ld [wAnimationType], a
 	ld a, CONF_ANIM - 1
-	call PlayMoveAnimation
+	call PlayStatusAnimation
 	call BattleRandom
 	cp $80 ; 50% chance to hurt itself
 	jr c, .TriedToUseDisabledMoveCheck
@@ -3533,7 +3533,7 @@ CheckPlayerStatusConditions:
 	xor a
 	ld [wAnimationType], a
 	ld a, STATUS_AFFECTED_ANIM
-	call PlayMoveAnimation
+	call PlayStatusAnimation
 .NotFlyOrChargeEffect
 	ld hl, ExecutePlayerMoveDone
 	jp .returnToHL ; if using a two-turn move, we need to recharge the first turn
@@ -5806,7 +5806,7 @@ EnemyCheckIfFlyOrChargeEffect:
 	xor a
 	ld [wAnimationType], a
 	ld a, STATUS_AFFECTED_ANIM
-	call PlayMoveAnimation
+	call PlayStatusAnimation
 EnemyCheckIfMirrorMoveEffect:
 	ld a, [wEnemyMoveEffect]
 	cp MIRROR_MOVE_EFFECT
@@ -5898,7 +5898,7 @@ CheckEnemyStatusConditions:
 	xor a
 	ld [wAnimationType], a
 	ld a, SLP_ANIM
-	call PlayMoveAnimation
+	call PlayStatusAnimation
 	jr .sleepDone
 .wokeUp
 	ld hl, WokeUpText
@@ -5974,7 +5974,7 @@ CheckEnemyStatusConditions:
 	xor a
 	ld [wAnimationType], a
 	ld a, CONF_ANIM
-	call PlayMoveAnimation
+	call PlayStatusAnimation
 	call BattleRandom
 	cp $80
 	jr c, .checkIfTriedToUseDisabledMove
@@ -6059,7 +6059,7 @@ CheckEnemyStatusConditions:
 	xor a
 	ld [wAnimationType], a
 	ld a, STATUS_AFFECTED_ANIM
-	call PlayMoveAnimation
+	call PlayStatusAnimation
 .notFlyOrChargeEffect
 	ld hl, ExecuteEnemyMoveDone
 	jp .enemyReturnToHL ; if using a two-turn move, enemy needs to recharge the first turn
@@ -6831,6 +6831,15 @@ HandleExplodingAnimation:
 
 PlayMoveAnimation:
 	ld [wAnimationID], a
+	ld a, 0
+	ld [wAnimationCategory], a
+	call Delay3
+	predef_jump MoveAnimation
+
+PlayStatusAnimation:
+	ld [wAnimationID], a
+	ld a, 1
+	ld [wAnimationCategory], a
 	call Delay3
 	predef_jump MoveAnimation
 
@@ -8708,6 +8717,8 @@ PlayBattleAnimation:
 	ld [wAnimationID], a
 
 PlayBattleAnimationGotID:
+	ld a, 0
+	ld [wAnimationCategory], a
 ; play animation at wAnimationID
 	push hl
 	push de

@@ -169,6 +169,8 @@ NUM_ATTACKS EQU const_value + -1
 
 	const STRUGGLE
 
+const_value = 1
+
 	; Moves do double duty as animation identifiers.
 
 	const SHOWPIC_ANIM

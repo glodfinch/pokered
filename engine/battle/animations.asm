@@ -170,7 +170,18 @@ PlayAnimation:
 	ld l, a
 	ld h, 0
 	add hl, hl
+	push af
+	ld a, [wAnimationCategory]
+	cp 0
+	jp z, .isMoveAnimation
+.isStatusAnimation
+	pop af
+	ld de, StatusAnimationPointers  ; animation command stream pointers
+	jp .animationSplitFinished
+.isMoveAnimation
+	pop af
 	ld de, AttackAnimationPointers  ; animation command stream pointers
+.animationSplitFinished
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -381,13 +392,21 @@ MoveAnimation:
 	push af
 	call WaitForSoundToFinish
 	call SetAnimationPalette
+
 	ld a, [wAnimationID]
 	and a
 	jr z, .animationFinished
 
+	ld a, [wAnimationCategory]
+	cp 0
+	jr z, .moveAnimation
+
 	; if throwing a Poké Ball, skip the regular animation code
 	cp TOSS_ANIM
 	jr nz, .moveAnimation
+	ld a, [wAnimationID]
+	and a
+	jr z, .animationFinished
 	ld de, .animationFinished
 	push de
 	jp TossBallAnimation
@@ -426,11 +445,11 @@ ShareMoveAnimations:
 	ret z
 
 	; opponent’s turn
-
 	ld a, [wAnimationID]
 
 	cp AMNESIA
 	ld b, CONF_ANIM
+
 	jr z, .replaceAnim
 
 	cp REST
@@ -438,6 +457,8 @@ ShareMoveAnimations:
 	ret nz
 
 .replaceAnim
+	ld a, 1
+	ld [wAnimationCategory], a
 	ld a, b
 	ld [wAnimationID], a
 	ret
@@ -525,11 +546,18 @@ SetAnimationPalette:
 	jr z, .notSGB
 	ld a, $f0
 	ld [wAnimPalette], a
-	ld b, $e4
 	ld a, [wAnimationID]
+	push af
+	ld a, [wAnimationCategory]
+	cp 0
+	pop af
+	jr z, .isMoveAnimation
+	ld b, $e4
 	cp TRADE_BALL_DROP_ANIM
 	jr c, .next
 	cp TRADE_BALL_POOF_ANIM + 1
+.isMoveAnimation
+	ld b, $e4
 	jr nc, .next
 	ld b, $f0
 .next
@@ -631,8 +659,17 @@ DoSpecialEffectByAnimationId:
 	push hl
 	push de
 	push bc
+	ld a, [wAnimationCategory]
+	cp 0
+	jp z, .isMoveAnimation
+.isStatusAnimation
 	ld a, [wAnimationID]
-	ld hl, AnimationIdSpecialEffects
+	ld hl, AnimationIdSpecialEffects_Status
+	jp .animationSplitFinished
+.isMoveAnimation
+	ld a, [wAnimationID]
+	ld hl, AnimationIdSpecialEffects_Moves
+.animationSplitFinished
 	ld de, 3
 	call IsInArray
 	jr nc, .done
@@ -650,7 +687,7 @@ DoSpecialEffectByAnimationId:
 	ret
 
 ; Format: Animation ID (1 byte), Address (2 bytes)
-AnimationIdSpecialEffects:
+AnimationIdSpecialEffects_Moves:
 	db MEGA_PUNCH
 	dw AnimationFlashScreen
 
@@ -699,6 +736,9 @@ AnimationIdSpecialEffects:
 	db ROCK_SLIDE
 	dw DoRockSlideSpecialEffects
 
+	db $FF ; terminator
+
+AnimationIdSpecialEffects_Status:
 	db TRADE_BALL_DROP_ANIM
 	dw TradeHidePokemon
 
@@ -2352,10 +2392,19 @@ GetMoveSound:
 IsCryMove:
 ; set carry if the move animation involves playing a monster cry
 	ld a, [wAnimationID]
+	push af
+	ld a, [wAnimationCategory]
+	cp 1
+	jr z, .isStatusAnimation
+	pop af
 	cp GROWL
 	jr z, .CryMove
 	cp ROAR
 	jr z, .CryMove
+	jr .return
+.isStatusAnimation
+	pop af
+.return
 	and a ; clear carry
 	ret
 .CryMove
@@ -2968,7 +3017,6 @@ TossBallAnimation:
 	ld a, b
 	and $F
 	ld [wNumShakes], a
-
 	ld hl, .PokeBallAnimations
 	; choose which toss animation to use
 	ld a, [wcf91]

@@ -164,6 +164,8 @@ AttackAnimationPointers:
 	dw SlashAnim
 	dw SubstituteAnim
 	dw StruggleAnim
+
+StatusAnimationPointers:
 	dw ShowPicAnim
 	dw EnemyFlashAnim
 	dw PlayerFlashAnim
