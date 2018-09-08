@@ -1,0 +1,13 @@
+PalletMons:
+	db $FF
+	db 3,SMEARGLE
+	db 3,SMEARGLE
+	db 3,SMEARGLE
+	db 2,SMEARGLE
+	db 2,SMEARGLE
+	db 3,SMEARGLE
+	db 3,SMEARGLE
+	db 4,SMEARGLE
+	db 4,SMEARGLE
+	db 5,SMEARGLE
+	db $00

@@ -53,3 +53,8 @@ _PalletTownText6::
 _PalletTownText7::
 	text "<RIVAL>'s house "
 	done
+
+_PalletTownText8::
+	text "Looks sketchy."
+	line "Don't go in!"
+	done
