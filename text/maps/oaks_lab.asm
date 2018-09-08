@@ -358,6 +358,20 @@ _OaksLabText_1d405::
 	line "PROF.OAK's AIDE."
 	done
 
+_OaksLabText_mball::
+	text "You want to catch"
+	line "some SMEARGLEs?"
+	cont "Take these!"
+	done
+
+_OaksLabText_gotmball::
+	text "Your journey will"
+	line "be long and"
+	cont "frustrating."
+	para "Good luck out"
+	line "there!"
+	done
+
 _OaksLabText_441cc::
 	text "#DEX comp-"
 	line "letion is:"

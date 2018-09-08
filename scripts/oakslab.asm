@@ -1222,6 +1222,23 @@ OaksLabText27:
 	db "@"
 
 OaksLabText11:
+	TX_ASM
+	ld b, MASTER_BALL
+	call IsItemInBag
+	jr nz, .gotMasterBalls
+	CheckAndSetEvent EVENT_GOT_MASTERBALLS
+	jr nz, .gotMasterBalls
+	lb bc, MASTER_BALL, 6
+	call GiveItem
+	ld hl, OaksLabText_mball
+	call PrintText
+	jr .scriptEnd
+.gotMasterBalls
+	ld hl, OaksLabText_gotmball
+	call PrintText
+.scriptEnd
+	jp TextScriptEnd
+
 OaksLabText10:
 	TX_ASM
 	ld hl, OaksLabText_1d405
@@ -1230,4 +1247,13 @@ OaksLabText10:
 
 OaksLabText_1d405:
 	TX_FAR _OaksLabText_1d405
+	db "@"
+
+OaksLabText_mball:
+	TX_FAR _OaksLabText_mball
+	TX_SFX_KEY_ITEM
+	db "@"
+
+OaksLabText_gotmball:
+	TX_FAR _OaksLabText_gotmball
 	db "@"
