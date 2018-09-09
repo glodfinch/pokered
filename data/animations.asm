@@ -219,8 +219,6 @@ ZigZagScreenAnim:
 SketchAnim:
 	db SE_FLASH_SCREEN_LONG, $FF
 	db %11000001,$48,$56
-	db %11000001,$48,$57
-	db %11000001,$48,$58
 	db $FF
 
 PoundAnim:
@@ -1358,8 +1356,6 @@ SubanimationPointers:
 	dw Subanimation54
 	dw Subanimation55
 	dw SubanimationSketch1 ;56
-	dw SubanimationSketch2 ;57
-	dw SubanimationSketch3 ;58
 
 	;0, 0 - 0, 0 B1
 	;0, 1 - 0, 1 B1
@@ -1374,7 +1370,7 @@ SubanimationPointers:
 ;Subanimation - frameblock ID, frameblock base, ??
 ;plays backwards for player character
 SubanimationSketch1:
-	db %10001110
+	db %10011111
 	db $7a,$B1,$00
 	db $7d,$B2,$00
 	db $7f,$B2,$00
@@ -1389,9 +1385,6 @@ SubanimationSketch1:
 	db $83,$B5,$00
 	db $82,$B4,$00
 	db $7b,$B8,$00
-
-SubanimationSketch2:
-	db %10001110
 	db $7a,$B9,$00
 	db $7d,$B8,$00
 	db $7f,$B8,$00
@@ -1406,23 +1399,23 @@ SubanimationSketch2:
 	db $83,$BC,$00
 	db $82,$BB,$00
 	db $7b,$BF,$00
-
-SubanimationSketch3:
-	db %10001110
 	db $7a,$C0,$00
 	db $7d,$BF,$00
 	db $7f,$BF,$00
-	db $7e,$BF,$00
-	db $81,$C1,$00
-	db $82,$C1,$00
-	db $7a,$C4,$00
-	db $7c,$C5,$00
-	db $7f,$C5,$00
-	db $80,$C4,$00
-	db $81,$C4,$00
-	db $83,$C3,$00
-	db $82,$C2,$00
-	db $7b,$C6,$00
+	;can i expand the amount of animation frames?
+	;adding a second subanimation causes flicker
+	;and graphical issues when it's played backwards
+	;db $7e,$BF,$00
+	;db $81,$C1,$00
+	;db $82,$C1,$00
+	;db $7a,$C4,$00
+	;db $7c,$C5,$00
+	;db $7f,$C5,$00
+	;db $80,$C4,$00
+	;db $81,$C4,$00
+	;db $83,$C3,$00
+	;db $82,$C2,$00
+	;db $7b,$C6,$00
 
 Subanimation04:
 	db $43
