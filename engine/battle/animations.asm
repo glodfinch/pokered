@@ -183,14 +183,14 @@ PlayAnimation:
 	ld de, AttackAnimationPointers  ; animation command stream pointers
 .animationSplitFinished
 	add hl, de
-	ld a, [hli]
-	ld h, [hl]
+	ld a, [hli] ; tileset_and_delay
+	ld h, [hl] ; sound_id
 	ld l, a
 .animationLoop
 	ld a, [hli]
 	cp $FF
 	jr z, .AnimationOver
-	cp $C0 ; is this subanimation or a special effect?
+	cp $D8 ; is this subanimation or a special effect?
 	jr c, .playSubanimation
 .doSpecialEffect
 	ld c, a
@@ -226,14 +226,14 @@ PlayAnimation:
 	push de
 	jp hl ; jump to special effect function
 .playSubanimation
-	ld c, a
-	and %00111111
+	ld c, a ; $46
+	and %00111111 ; 11000110 = 00000110 $06
 	ld [wSubAnimFrameDelay], a
-	xor a
-	sla c
-	rla
-	sla c
-	rla
+	xor a ; a empty
+	sla c ; %10001100 carry set
+	rla ; $00000001
+	sla c ; %00011000 carry set
+	rla ; $00000011
 	ld [wWhichBattleAnimTileset], a
 	ld a, [hli] ; sound
 	ld [wAnimSoundID], a ; store sound
@@ -278,11 +278,11 @@ LoadSubanimation:
 	ld d, a ; de = address of subanimation
 	ld a, [de]
 	ld b, a
-	and 31
+	and 31 ; %10000100 and %00011111 = %00000100 4
 	ld [wSubAnimCounter], a ; number of frame blocks
 	ld a, b
-	and %11100000
-	cp 5 << 5 ; is subanimation type 5?
+	and %11100000 ; %10000000
+	cp 5 << 5 ; is subanimation type 5? %00000110 << 5 = $11000000
 	jr nz, .isNotType5
 .isType5
 	call GetSubanimationTransform2
@@ -371,11 +371,18 @@ AnimationTilesetPointers:
 	dw AnimationTileset1
 	db $FF
 
+	db 4
+	dw AnimationTileset3
+	db $FF
+
 AnimationTileset1:
 	INCBIN "gfx/attack_anim_1.2bpp"
 
 AnimationTileset2:
 	INCBIN "gfx/attack_anim_2.2bpp"
+
+AnimationTileset3:
+	INCBIN "gfx/attack_anim_3.2bpp"
 
 SlotMachineTiles2:
 IF DEF(_RED)

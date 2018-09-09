@@ -163,6 +163,7 @@ AttackAnimationPointers:
 	dw SuperFangAnim
 	dw SlashAnim
 	dw SubstituteAnim
+	dw SketchAnim
 	dw StruggleAnim
 
 StatusAnimationPointers:
@@ -213,6 +214,13 @@ StatusAnimationPointers:
 ; $FF terminated
 ZigZagScreenAnim:
 	db SE_WAVY_SCREEN, $FF
+	db $FF
+
+SketchAnim:
+	db SE_FLASH_SCREEN_LONG, $FF
+	db %11000001,$48,$56
+	db %11000001,$48,$57
+	db %11000001,$48,$58
 	db $FF
 
 PoundAnim:
@@ -1349,6 +1357,72 @@ SubanimationPointers:
 	dw Subanimation53
 	dw Subanimation54
 	dw Subanimation55
+	dw SubanimationSketch1 ;56
+	dw SubanimationSketch2 ;57
+	dw SubanimationSketch3 ;58
+
+	;0, 0 - 0, 0 B1
+	;0, 1 - 0, 1 B1
+	;1, 2 - 1, 2 B1
+	;1, 1 - 1, 5 B2
+	;2, 0 - 2, 8 B3
+	;2, 1 - 2, 9 B3
+	;3, 1 - 3, 13 B4
+	;3, 3 - 3, 15 B4
+	;4, 3 - 4, 15 B4
+
+;Subanimation - frameblock ID, frameblock base, ??
+;plays backwards for player character
+SubanimationSketch1:
+	db %10001110
+	db $7a,$B1,$00
+	db $7d,$B2,$00
+	db $7f,$B2,$00
+	db $7e,$B2,$00
+	db $81,$B3,$00
+	db $82,$B3,$00
+	db $7a,$B6,$00
+	db $7c,$B7,$00
+	db $7f,$B7,$00
+	db $80,$B6,$00
+	db $81,$B6,$00
+	db $83,$B5,$00
+	db $82,$B4,$00
+	db $7b,$B8,$00
+
+SubanimationSketch2:
+	db %10001110
+	db $7a,$B9,$00
+	db $7d,$B8,$00
+	db $7f,$B8,$00
+	db $7e,$B8,$00
+	db $81,$BA,$00
+	db $82,$BA,$00
+	db $7a,$BD,$00
+	db $7c,$BE,$00
+	db $7f,$BE,$00
+	db $80,$BD,$00
+	db $81,$BD,$00
+	db $83,$BC,$00
+	db $82,$BB,$00
+	db $7b,$BF,$00
+
+SubanimationSketch3:
+	db %10001110
+	db $7a,$C0,$00
+	db $7d,$BF,$00
+	db $7f,$BF,$00
+	db $7e,$BF,$00
+	db $81,$C1,$00
+	db $82,$C1,$00
+	db $7a,$C4,$00
+	db $7c,$C5,$00
+	db $7f,$C5,$00
+	db $80,$C4,$00
+	db $81,$C4,$00
+	db $83,$C3,$00
+	db $82,$C2,$00
+	db $7b,$C6,$00
 
 Subanimation04:
 	db $43
@@ -2331,6 +2405,17 @@ FrameBlockPointers:
 	dw FrameBlock78
 	dw FrameBlock79
 
+	dw FrameBlockSketch1 ; 7a
+	dw FrameBlockSketch2 ; 7b
+	dw FrameBlockSketch3 ; 7c
+	dw FrameBlockSketch4 ; 7d
+	dw FrameBlockSketch5 ; 7e
+	dw FrameBlockSketch6 ; 7f
+	dw FrameBlockSketch7 ; 80
+	dw FrameBlockSketch8 ; 81
+	dw FrameBlockSketch9 ; 82
+	dw FrameBlockSketch10 ; 83
+
 ; FrameBlock format is as follows:
 ; first byte = number of tiles in FrameBlock
 ;
@@ -2339,6 +2424,88 @@ FrameBlockPointers:
 ; second byte = x offset
 ; third byte = tile id (it's actually tile id - $31)
 ; fourth byte = tile properties (xflip/yflip/etc.)
+
+;0, 0 - 0, 0 B1
+;0, 1 - 0, 1 B1
+;1, 2 - 1, 2 B2
+;1, 1 - 1, 5 B2
+;2, 0 - 2, 8 B3
+;2, 1 - 2, 9 B3
+;3, 1 - 3, 13 B4
+;3, 3 - 3, 15 B4
+;4, 3 - 4, 15 B4
+
+FrameBlockSketch1:
+	db $04
+	db $00,$00,$00,$00
+	db $08,$00,$01,$00
+	db $00,$08,$02,$00
+	db $08,$08,$03,$00
+
+FrameBlockSketch2:
+	db $04
+	db $00,$01,$00,$00
+	db $08,$01,$01,$00
+	db $00,$09,$02,$00
+	db $08,$09,$03,$00
+
+FrameBlockSketch3:
+	db $04
+	db $00,$02,$00,$00
+	db $08,$02,$01,$00
+	db $00,$0A,$02,$00
+	db $08,$0A,$03,$00
+
+FrameBlockSketch4:
+	db $04
+	db $00,$03,$00,$00
+	db $08,$03,$01,$00
+	db $00,$0B,$02,$00
+	db $08,$0B,$03,$00
+
+FrameBlockSketch5:
+	db $04
+	db $01,$00,$00,$00
+	db $09,$00,$01,$00
+	db $01,$08,$02,$00
+	db $09,$08,$03,$00
+
+FrameBlockSketch6:
+	db $04
+	db $01,$02,$00,$00
+	db $09,$02,$01,$00
+	db $01,$0A,$02,$00
+	db $09,$0A,$03,$00
+
+FrameBlockSketch7:
+	db $04
+	db $02,$00,$00,$00
+	db $0A,$00,$01,$00
+	db $02,$08,$02,$00
+	db $0A,$08,$03,$00
+
+FrameBlockSketch8:
+	db $04
+	db $02,$01,$00,$00
+	db $0A,$01,$01,$00
+	db $02,$09,$02,$00
+	db $0A,$09,$03,$00
+
+FrameBlockSketch9:
+	db $04
+	db $03,$00,$00,$00
+	db $0B,$00,$01,$00
+	db $03,$08,$02,$00
+	db $0B,$08,$03,$00
+
+FrameBlockSketch10:
+	db $04
+	db $03,$01,$00,$00
+	db $0B,$01,$01,$00
+	db $03,$09,$02,$00
+	db $0B,$09,$03,$00
+
+
 FrameBlock01:
 	db $09
 	db $00,$00,$2c,$00
@@ -3447,184 +3614,210 @@ FrameBlock79:
 	db $01
 	db $00,$00,$4e,$00
 
+; FrameBlockBase: Y, X
 FrameBlockBaseCoords:
-	db $10,$68
-	db $10,$70
-	db $10,$78
-	db $10,$80
-	db $10,$88
-	db $10,$90
-	db $10,$98
-	db $18,$68
-	db $18,$70
-	db $18,$78
-	db $34,$28
-	db $18,$80
-	db $18,$88
-	db $18,$98
-	db $20,$68
-	db $20,$70
-	db $20,$78
-	db $20,$80
-	db $20,$88
-	db $20,$90
-	db $20,$98
-	db $28,$68
-	db $28,$70
-	db $28,$78
-	db $28,$80
-	db $28,$88
-	db $30,$68
-	db $30,$70
-	db $30,$78
-	db $30,$80
-	db $30,$90
-	db $30,$98
-	db $38,$68
-	db $38,$78
-	db $38,$80
-	db $38,$88
-	db $40,$68
-	db $40,$70
-	db $40,$78
-	db $40,$80
-	db $40,$88
-	db $40,$98
-	db $10,$60
-	db $18,$60
-	db $20,$60
-	db $28,$60
-	db $30,$60
-	db $40,$60
-	db $58,$28
-	db $43,$38
-	db $33,$48
-	db $20,$58
-	db $32,$78
-	db $58,$58
-	db $2C,$6C
-	db $34,$80
-	db $48,$70
-	db $42,$36
-	db $38,$44
-	db $40,$52
-	db $48,$60
-	db $3E,$6E
-	db $28,$7C
-	db $28,$8A
-	db $50,$3C
-	db $48,$50
-	db $40,$64
-	db $38,$38
-	db $50,$30
-	db $50,$38
-	db $50,$40
-	db $50,$48
-	db $50,$50
-	db $48,$58
-	db $50,$44
-	db $48,$48
-	db $48,$4C
-	db $40,$50
-	db $40,$54
-	db $38,$58
-	db $38,$5C
-	db $30,$64
-	db $48,$40
-	db $48,$39
-	db $24,$88
-	db $24,$70
-	db $1C,$70
-	db $1C,$88
-	db $34,$68
-	db $34,$88
-	db $68,$50
-	db $60,$50
-	db $68,$60
-	db $58,$50
-	db $60,$60
-	db $68,$40
-	db $40,$40
-	db $38,$40
-	db $0B,$60
-	db $44,$48
-	db $40,$14
-	db $48,$1C
-	db $50,$24
-	db $4C,$24
-	db $10,$62
-	db $12,$62
-	db $12,$60
-	db $20,$72
-	db $22,$72
-	db $22,$70
-	db $28,$62
-	db $50,$0A
-	db $52,$0A
-	db $38,$30
-	db $40,$48
-	db $30,$48
-	db $40,$30
-	db $30,$40
-	db $38,$48
-	db $40,$4A
-	db $48,$4B
-	db $50,$4C
-	db $58,$4D
-	db $60,$4D
-	db $68,$4D
-	db $38,$10
-	db $50,$10
-	db $38,$28
-	db $48,$18
-	db $40,$20
-	db $48,$20
-	db $40,$3C
-	db $38,$50
-	db $28,$64
-	db $1C,$90
-	db $24,$80
-	db $2C,$70
-	db $30,$38
-	db $10,$50
-	db $3C,$40
-	db $40,$58
-	db $30,$58
-	db $58,$48
-	db $50,$58
-	db $48,$68
-	db $40,$18
-	db $28,$58
-	db $40,$38
-	db $48,$38
-	db $08,$70
-	db $44,$1C
-	db $3C,$58
-	db $38,$60
-	db $08,$60
-	db $38,$70
-	db $38,$6C
-	db $38,$64
-	db $1C,$74
-	db $2E,$74
-	db $34,$50
-	db $2F,$60
-	db $31,$70
-	db $4C,$30
-	db $3B,$40
-	db $2D,$50
-	db $26,$60
-	db $2D,$70
-	db $28,$50
-	db $1E,$60
-	db $29,$70
-	db $16,$60
-	db $14,$58
-	db $12,$54
-	db $14,$50
-	db $18,$4C
-	db $1C,$48
-	db $48,$28
+	db $10,$68 ; $00
+	db $10,$70 ; $01
+	db $10,$78 ; $02
+	db $10,$80 ; $03
+	db $10,$88 ; $04
+	db $10,$90 ; $05
+	db $10,$98 ; $06
+	db $18,$68 ; $07
+	db $18,$70 ; $08
+	db $18,$78 ; $09
+	db $34,$28 ; $0A
+	db $18,$80 ; $0B
+	db $18,$88 ; $0C
+	db $18,$98 ; $0D
+	db $20,$68 ; $0E
+	db $20,$70 ; $0F
+	db $20,$78 ; $10
+	db $20,$80 ; $11
+	db $20,$88 ; $12
+	db $20,$90 ; $13
+	db $20,$98 ; $14
+	db $28,$68 ; $15
+	db $28,$70 ; $16
+	db $28,$78 ; $17
+	db $28,$80 ; $18
+	db $28,$88 ; $19
+	db $30,$68 ; $1A
+	db $30,$70 ; $1B
+	db $30,$78 ; $1C
+	db $30,$80 ; $1D
+	db $30,$90 ; $1E
+	db $30,$98 ; $1F
+	db $38,$68 ; $20
+	db $38,$78 ; $21
+	db $38,$80 ; $22
+	db $38,$88 ; $23
+	db $40,$68 ; $24
+	db $40,$70 ; $25
+	db $40,$78 ; $26
+	db $40,$80 ; $27
+	db $40,$88 ; $28
+	db $40,$98 ; $29
+	db $10,$60 ; $2A
+	db $18,$60 ; $2B
+	db $20,$60 ; $2C
+	db $28,$60 ; $2D
+	db $30,$60 ; $2E
+	db $40,$60 ; $2F
+	db $58,$28 ; $30
+	db $43,$38 ; $31
+	db $33,$48 ; $32
+	db $20,$58 ; $33
+	db $32,$78 ; $34
+	db $58,$58 ; $35
+	db $2C,$6C ; $36
+	db $34,$80 ; $37
+	db $48,$70 ; $38
+	db $42,$36 ; $39
+	db $38,$44 ; $3A
+	db $40,$52 ; $3B
+	db $48,$60 ; $3C
+	db $3E,$6E ; $3D
+	db $28,$7C ; $3E
+	db $28,$8A ; $3F
+	db $50,$3C ; $40
+	db $48,$50 ; $41
+	db $40,$64 ; $42
+	db $38,$38 ; $43
+	db $50,$30 ; $44
+	db $50,$38 ; $45
+	db $50,$40 ; $46
+	db $50,$48 ; $47
+	db $50,$50 ; $48
+	db $48,$58 ; $49
+	db $50,$44 ; $4A
+	db $48,$48 ; $4B
+	db $48,$4C ; $4C
+	db $40,$50 ; $4D
+	db $40,$54 ; $4E
+	db $38,$58 ; $4F
+	db $38,$5C ; $50
+	db $30,$64 ; $51
+	db $48,$40 ; $52
+	db $48,$39 ; $53
+	db $24,$88 ; $54
+	db $24,$70 ; $55
+	db $1C,$70 ; $56
+	db $1C,$88 ; $57
+	db $34,$68 ; $58
+	db $34,$88 ; $59
+	db $68,$50 ; $5A
+	db $60,$50 ; $5B
+	db $68,$60 ; $5C
+	db $58,$50 ; $5D
+	db $60,$60 ; $5E
+	db $68,$40 ; $5F
+	db $40,$40 ; $60
+	db $38,$40 ; $61
+	db $0B,$60 ; $62
+	db $44,$48 ; $63
+	db $40,$14 ; $64
+	db $48,$1C ; $65
+	db $50,$24 ; $66
+	db $4C,$24 ; $67
+	db $10,$62 ; $68
+	db $12,$62 ; $69
+	db $12,$60 ; $6A
+	db $20,$72 ; $6B
+	db $22,$72 ; $6C
+	db $22,$70 ; $6D
+	db $28,$62 ; $6E
+	db $50,$0A ; $6F
+	db $52,$0A ; $70
+	db $38,$30 ; $71
+	db $40,$48 ; $72
+	db $30,$48 ; $73
+	db $40,$30 ; $74
+	db $30,$40 ; $75
+	db $38,$48 ; $76
+	db $40,$4A ; $77
+	db $48,$4B ; $78
+	db $50,$4C ; $79
+	db $58,$4D ; $7A
+	db $60,$4D ; $7B
+	db $68,$4D ; $7C
+	db $38,$10 ; $7D
+	db $50,$10 ; $7E
+	db $38,$28 ; $7F
+	db $48,$18 ; $80
+	db $40,$20 ; $81
+	db $48,$20 ; $82
+	db $40,$3C ; $83
+	db $38,$50 ; $84
+	db $28,$64 ; $85
+	db $1C,$90 ; $86
+	db $24,$80 ; $87
+	db $2C,$70 ; $88
+	db $30,$38 ; $89
+	db $10,$50 ; $8A
+	db $3C,$40 ; $8B
+	db $40,$58 ; $8C
+	db $30,$58 ; $8D
+	db $58,$48 ; $8E
+	db $50,$58 ; $8F
+	db $48,$68 ; $90
+	db $40,$18 ; $91
+	db $28,$58 ; $92
+	db $40,$38 ; $93
+	db $48,$38 ; $94
+	db $08,$70 ; $95
+	db $44,$1C ; $96
+	db $3C,$58 ; $97
+	db $38,$60 ; $98
+	db $08,$60 ; $99
+	db $38,$70 ; $9A
+	db $38,$6C ; $9B
+	db $38,$64 ; $9C
+	db $1C,$74 ; $9D
+	db $2E,$74 ; $9E
+	db $34,$50 ; $9F
+	db $2F,$60 ; $A0
+	db $31,$70 ; $A1
+	db $4C,$30 ; $A2
+	db $3B,$40 ; $A3
+	db $2D,$50 ; $A4
+	db $26,$60 ; $A5
+	db $2D,$70 ; $A6
+	db $28,$50 ; $A7
+	db $1E,$60 ; $A8
+	db $29,$70 ; $A9
+	db $16,$60 ; $AA
+	db $14,$58 ; $AB
+	db $12,$54 ; $AC
+	db $14,$50 ; $AD
+	db $18,$4C ; $AE
+	db $1C,$48 ; $AF
+	db $48,$28 ; $B0
+
+	db $38,$50 ; $B1
+	db $38,$4C ; $B2
+	db $38,$48 ; $B3
+	db $3C,$4C ; $B4
+	db $3C,$48 ; $B5
+	db $3C,$44 ; $B6
+	db $3C,$40 ; $B7
+	db $40,$4C ; $B8
+
+	db $40,$50 ; $B9
+	db $40,$48 ; $BA
+	db $44,$4C ; $BB
+	db $44,$48 ; $BC
+	db $44,$44 ; $BD
+	db $44,$40 ; $BE
+	db $48,$4C ; $BF
+
+	db $48,$50 ; $C0
+	db $48,$44 ; $C1
+	db $4C,$4C ; $C2
+	db $4C,$48 ; $C3
+	db $4C,$44 ; $C4
+	db $4C,$40 ; $C5
+	db $50,$4C ; $C6
 
 FrameBlock00:
 	db $00,$00

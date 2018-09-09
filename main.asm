@@ -2072,11 +2072,7 @@ INCLUDE "engine/battle/animations.asm"
 
 INCLUDE "engine/overworld/cut2.asm"
 
-INCLUDE "engine/overworld/ssanne.asm"
-
 INCLUDE "data/animations.asm"
-
-INCLUDE "engine/evolution.asm"
 
 INCLUDE "engine/overworld/elevator.asm"
 
@@ -2094,3 +2090,6 @@ RedFishingTilesSide:  INCBIN "gfx/red_fishing_tile_side.2bpp"
 RedFishingRodTiles:   INCBIN "gfx/red_fishingrod_tiles.2bpp"
 Overworld_GFX:     INCBIN "gfx/tilesets/overworld.2bpp"
 Overworld_Block:   INCBIN "gfx/blocksets/overworld.bst"
+INCLUDE "engine/evolution.asm"
+
+INCLUDE "engine/overworld/ssanne.asm"
