@@ -1,6 +1,8 @@
 ; try to initiate a wild pokemon encounter
 ; returns success in Z
 TryDoWildEncounter:
+	CheckEvent EVENT_GOT_STARTER
+	jr z, .CantEncounter
 	ld a, [wNPCMovementScriptPointerTableNum]
 	and a
 	ret nz
