@@ -1,8 +1,15 @@
 ; try to initiate a wild pokemon encounter
 ; returns success in Z
 TryDoWildEncounter:
-	CheckEvent EVENT_GOT_STARTER
+	CheckEvent EVENT_GOT_STARTER ;this prevents encounters in pallet with no party
 	jr z, .CantEncounter
+	ld a, [wCurMap] ; prevent encounters in grass at top of pallet
+	cp PALLET_TOWN
+	jr nz, .notPallet
+	ld a, [wYCoord]
+	cp $02
+	jr c, .CantEncounter
+.notPallet
 	ld a, [wNPCMovementScriptPointerTableNum]
 	and a
 	ret nz
