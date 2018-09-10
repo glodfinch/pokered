@@ -11,27 +11,27 @@
 ;wEnemyBattleStatus see volatile statuses status_constants.asm
 
 SketchEffect_:
-	ld hl, wBattleMonMoves ;hl = opponent, de = self
+  ld hl, wBattleMonMoves ;hl = opponent, de = self
   ld de, wEnemyMonMoves
   ld bc, wPlayerBattleStatus2
-	ld a, [H_WHOSETURN] ; H_WHOSETURN  0 = player 1 = enemy
-	and a
+  ld a, [H_WHOSETURN] ; H_WHOSETURN  0 = player 1 = enemy
+  and a
   ld a, [wPlayerBattleStatus3]
-	jr nz, .hitTest ;enemy turn
-	ld hl, wEnemyMonMoves ;player turn, swap mons
+  jr nz, .hitTest ;enemy turn
+  ld hl, wEnemyMonMoves ;player turn, swap mons
   ld de, wBattleMonMoves
-	ld bc, wEnemyBattleStatus2
+  ld bc, wEnemyBattleStatus2
   ld a, [wEnemyBattleStatus3]
 .hitTest
-	bit TRANSFORMED, a ; is mon transformed?
-	jp nz, .failed
+  bit TRANSFORMED, a ; is mon transformed?
+  jp nz, .failed
   ld a, [bc]
   bit HAS_SUBSTITUTE_UP, a ; is mon substituted?
   jp nz, .failed
   ld a, [H_WHOSETURN]
-	and a
+  and a
   ld a, [wBattleFirstEnemyAttackDone]
-	jr z, .checkIfAttacked
+  jr z, .checkIfAttacked
   ld a, [wBattleFirstPlayerAttackDone]
 .checkIfAttacked
   and a ; enemy has attacked yet?
@@ -67,9 +67,9 @@ SketchEffect_:
   jp .failed
 
 .sketchEffect
-	ld hl, PlayCurrentMoveAnimation ;trigger the animation
-	ld b, BANK(PlayCurrentMoveAnimation)
-	call Bankswitch
+  ld hl, PlayCurrentMoveAnimation ;trigger the animation
+  ld b, BANK(PlayCurrentMoveAnimation)
+  call Bankswitch
   pop de
   pop hl
   pop af
@@ -123,8 +123,8 @@ SketchEffect_:
   jp PrintText
 
 .failed
-	ld hl, PrintButItFailedText_
-	jp BankswitchEtoF
+  ld hl, PrintButItFailedText_
+  jp BankswitchEtoF
 
 SketchedText:
   TX_FAR _SketchedText
