@@ -216,8 +216,8 @@ OaksLabHiddenObjects:
 	db BANK(DisplayOakLabRightPoster)
 	dw DisplayOakLabRightPoster
 	db $01,$00,$04
-	db BANK(DisplayOakLabEmailText)
-	dw DisplayOakLabEmailText
+	db BANK(OpenPokemonCenterPC)
+	dw OpenPokemonCenterPC
 	db $01,$01,$04
 	db BANK(DisplayOakLabEmailText)
 	dw DisplayOakLabEmailText

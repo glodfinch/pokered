@@ -1878,11 +1878,6 @@ IF DEF(_BLUE)
 ENDC
 Version_GFXEnd:
 
-Dojo_GFX:
-Gym_GFX:           INCBIN "gfx/tilesets/gym.2bpp"
-Dojo_Block:
-Gym_Block:         INCBIN "gfx/blocksets/gym.bst"
-
 Mart_GFX:
 Pokecenter_GFX:    INCBIN "gfx/tilesets/pokecenter.2bpp"
 Mart_Block:
@@ -2093,3 +2088,7 @@ Overworld_Block:   INCBIN "gfx/blocksets/overworld.bst"
 INCLUDE "engine/evolution.asm"
 
 INCLUDE "engine/overworld/ssanne.asm"
+Dojo_GFX:
+Gym_GFX:           INCBIN "gfx/tilesets/gym.2bpp"
+Dojo_Block:
+Gym_Block:         INCBIN "gfx/blocksets/gym.bst"
