@@ -221,6 +221,8 @@ SetScrollXForSlidingPlayerBodyLeft:
 
 StartBattle:
 	xor a
+	ld [wBattleFirstEnemyAttackDone], a
+	ld [wBattleFirstPlayerAttackDone], a
 	ld [wPartyGainExpFlags], a
 	ld [wPartyFoughtCurrentEnemyFlags], a
 	ld [wActionResultOrTookBattleTurn], a
@@ -3132,6 +3134,8 @@ LinkBattleExchangeData:
 	ret
 
 ExecutePlayerMove:
+	ld a, 1
+	ld [wBattleFirstPlayerAttackDone], a
 	xor a
 	ld [H_WHOSETURN], a ; set player's turn
 	ld a, [wPlayerSelectedMove]
@@ -5666,6 +5670,8 @@ RandomizeDamage:
 
 ; for more detailed commentary, see equivalent function for player side (ExecutePlayerMove)
 ExecuteEnemyMove:
+	ld a, 1
+	ld [wBattleFirstEnemyAttackDone], a
 	ld a, [wEnemySelectedMove]
 	inc a
 	jp z, ExecuteEnemyMoveDone
@@ -7237,6 +7243,7 @@ MoveEffectPointerTable:
 	 dw LeechSeedEffect           ; LEECH_SEED_EFFECT
 	 dw SplashEffect              ; SPLASH_EFFECT
 	 dw DisableEffect             ; DISABLE_EFFECT
+	 dw SketchEffect              ; SKETCH_EFFECT
 
 SleepEffect:
 	ld de, wEnemyMonStatus
@@ -8613,6 +8620,9 @@ HealEffect:
 
 TransformEffect:
 	jpab TransformEffect_
+
+SketchEffect:
+	jpab SketchEffect_
 
 ReflectLightScreenEffect:
 	jpab ReflectLightScreenEffect_

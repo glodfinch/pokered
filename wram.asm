@@ -1816,7 +1816,10 @@ wSavedListScrollOffset:: ; d07e
 ; so that it can be restored when the player is done with the pokemart NPC
 	ds 1
 
-	ds 2
+wBattleFirstEnemyAttackDone:: ; d07f
+	ds 1
+wBattleFirstPlayerAttackDone:: ; d080
+	ds 1
 
 ; base coordinates of frame block
 wBaseCoordX:: ; d081

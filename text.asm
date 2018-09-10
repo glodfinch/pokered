@@ -2292,6 +2292,14 @@ _TransformedText::
 	text "!"
 	prompt
 
+_SketchedText::
+	text "<USER>"
+	line "SKETCHED "
+	cont "@"
+	TX_RAM wcd6d
+	text "!"
+	prompt
+
 _LightScreenProtectedText::
 	text "<USER>'s"
 	line "protected against"
