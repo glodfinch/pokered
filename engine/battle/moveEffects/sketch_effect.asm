@@ -30,17 +30,12 @@ SketchEffect_:
   jp nz, .failed
   ld a, [H_WHOSETURN]
   and a
-  ld a, [wBattleFirstEnemyAttackDone]
+  ld a, [wBattlePreviousEnemyAttack]
   jr z, .checkIfAttacked
-  ld a, [wBattleFirstPlayerAttackDone]
+  ld a, [wBattlePreviousEnemyAttack]
 .checkIfAttacked
-  and a ; enemy has attacked yet?
+  and a ; opponent has attacked yet?
   jp z, .failed
-  ld a, [H_WHOSETURN]
-  and a
-  ld a, [wEnemySelectedMove]
-  jr z, .checkMoveSelected
-  ld a, [wPlayerSelectedMove]
 .checkMoveSelected
   ld c, a ; store opponent move for check loop later
   and a ; opponent move invalid?
