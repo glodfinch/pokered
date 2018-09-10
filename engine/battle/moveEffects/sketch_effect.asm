@@ -32,7 +32,7 @@ SketchEffect_:
   and a
   ld a, [wBattlePreviousEnemyAttack]
   jr z, .checkIfAttacked
-  ld a, [wBattlePreviousEnemyAttack]
+  ld a, [wBattlePreviousPlayerAttack]
 .checkIfAttacked
   and a ; opponent has attacked yet?
   jp z, .failed
