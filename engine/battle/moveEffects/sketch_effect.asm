@@ -115,12 +115,12 @@ SketchEffect_:
   ld [de], a ; copy the move into the battle slot
   ld [wd0b5], a ; load the text for the name
   ld a, BANK(MoveNames)
-	ld [wPredefBank], a
-	ld a, MOVE_NAME
-	ld [wNameListType], a
-	call GetName
-	ld hl, SketchedText
-	jp PrintText
+  ld [wPredefBank], a
+  ld a, MOVE_NAME
+  ld [wNameListType], a
+  call GetName
+  ld hl, SketchedText
+  jp PrintText
 
 .failed
 	ld hl, PrintButItFailedText_
