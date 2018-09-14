@@ -1,11 +1,14 @@
 ; function that displays the start menu
 DrawStartMenu:
+	CheckEvent EVENT_IN_SAFARI_ZONE
+	jr nz, .shorterMenu
 	CheckEvent EVENT_GOT_POKEDEX
 ; menu with pokedex
 	coord hl, 10, 0
 	ld b, $0e
 	ld c, $08
 	jr nz, .drawTextBoxBorder
+.shorterMenu
 ; shorter menu if the player doesn't have the pokedex
 	coord hl, 10, 0
 	ld b, $0c
@@ -33,7 +36,10 @@ DrawStartMenu:
 ; case for having pokedex
 	ld de, StartMenuPokedexText
 	call PrintStartMenuItem
+	CheckEvent EVENT_IN_SAFARI_ZONE
 	ld a, $07
+	jr z, .storeMenuItemCount
+	ld a, $06
 .storeMenuItemCount
 	ld [wMaxMenuItem], a ; number of menu items
 	ld de, StartMenuPokemonText
@@ -42,6 +48,8 @@ DrawStartMenu:
 	call PrintStartMenuItem
 	ld de, wPlayerName ; player's name
 	call PrintStartMenuItem
+	CheckEvent EVENT_IN_SAFARI_ZONE
+	jr nz, .noSaveOrReset
 	ld a, [wd72e]
 	bit 6, a ; is the player using the link feature?
 ; case for not using link feature
@@ -51,6 +59,7 @@ DrawStartMenu:
 	ld de, StartMenuResetText
 .printSaveOrResetText
 	call PrintStartMenuItem
+.noSaveOrReset
 	ld de, StartMenuOptionText
 	call PrintStartMenuItem
 	ld de, StartMenuExitText
@@ -87,3 +96,4 @@ PrintStartMenuItem:
 	ld de, SCREEN_WIDTH * 2
 	add hl, de
 	ret
+

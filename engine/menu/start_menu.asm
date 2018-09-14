@@ -24,6 +24,9 @@ RedisplayStartMenu::
 	and a
 	jr nz, .loop
 ; if the player pressed tried to go past the top item, wrap around to the bottom
+	CheckEvent EVENT_IN_SAFARI_ZONE
+	ld a, 5
+	jr nz, .wrapMenuItemId
 	CheckEvent EVENT_GOT_POKEDEX
 	ld a, 6 ; there are 7 menu items with the pokedex, so the max index is 6
 	jr nz, .wrapMenuItemId
@@ -36,6 +39,10 @@ RedisplayStartMenu::
 	bit 7, a
 	jr z, .buttonPressed
 ; if the player pressed tried to go past the bottom item, wrap around to the top
+	CheckEvent EVENT_IN_SAFARI_ZONE
+	ld a, [wCurrentMenuItem]
+	ld c, 6 ; there are 7 menu items with the pokedex#
+	jr nz, .checkIfPastBottom
 	CheckEvent EVENT_GOT_POKEDEX
 	ld a, [wCurrentMenuItem]
 	ld c, 7 ; there are 7 menu items with the pokedex
@@ -57,6 +64,19 @@ RedisplayStartMenu::
 	and %00001010 ; was the Start button or B button pressed?
 	jp nz, CloseStartMenu
 	call SaveScreenTilesToBuffer2 ; copy background from wTileMap to wTileMapBackup2
+	CheckEvent EVENT_IN_SAFARI_ZONE
+	ld a, [wCurrentMenuItem]
+	jr z, .pokedexCheck
+	ld b, a ;we need to check if the save option (a) is <= the current menu item (b)
+	ld a, 4
+	cp b ;so cp it will set c if a<b and z if a=b
+	jr c, .skipZCheck
+	jr nz, .pokedexCheck
+.skipZCheck
+	ld a, b
+	inc a
+	jp .displayMenuItem
+.pokedexCheck
 	CheckEvent EVENT_GOT_POKEDEX
 	ld a, [wCurrentMenuItem]
 	jr nz, .displayMenuItem
@@ -83,3 +103,4 @@ CloseStartMenu::
 	jr nz, CloseStartMenu
 	call LoadTextBoxTilePatterns
 	jp CloseTextDisplay
+
