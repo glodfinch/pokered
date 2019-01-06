@@ -76,7 +76,7 @@ SketchEffect_:
   jp z, .loopDone
   inc de
   dec b
-  jr nz, .checkIfHasMoveLoop
+  jr nz, .findSketchInMovesLoop
   jp .failed ; probably this should never happen but whatever
 
 .loopDone
